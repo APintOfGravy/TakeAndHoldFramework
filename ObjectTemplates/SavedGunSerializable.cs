@@ -61,15 +61,22 @@ namespace TNHFramework.ObjectTemplates
 
         public bool AllComponentsLoaded()
         {
-            foreach(SavedGunComponentSerializable component in Components)
+            bool result = true;
+            List<string> missing = [];
+
+            foreach (SavedGunComponentSerializable component in Components)
             {
                 if (!IM.OD.ContainsKey(component.ObjectID))
                 {
-                    return false;
+                    missing.Add(component.ObjectID);
+                    result = false;
                 }
             }
 
-            return true;
+            if (!result)
+                TNHFrameworkLogger.LogWarning($"Vaulted gun in table does not have all components loaded, removing it! VaultID: {FileName}, Missing ID(s): {string.Join(", ", [.. missing])}");
+
+            return result;
         }
 
         public FVRObject GetGunObject()

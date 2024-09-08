@@ -121,28 +121,7 @@ namespace TNHFramework
         {
             if (!LoadedVaultFiles.ContainsKey(template.FileName))
             {
-                bool isFileBorked = false;
-                string culprit = "";
-                foreach (VaultObject vaultObject in template.Objects)
-                {
-                    foreach (VaultElement vaultElement in vaultObject.Elements)
-                    {
-                        if (!IM.OD.ContainsKey(vaultElement.ObjectID))
-                        {
-                            isFileBorked = true;
-                            culprit = vaultElement.ObjectID;
-                        }
-                    }
-                }
-
-                if (!isFileBorked)
-                {
-                    LoadedVaultFiles.Add(template.FileName, template);
-                }
-                else
-                {
-                    TNHFrameworkLogger.LogWarning("Failed to load vault file '" + template.FileName + "', culprit was: '" + culprit + "'");
-                }
+                LoadedVaultFiles.Add(template.FileName, template);
             }
         }
 
